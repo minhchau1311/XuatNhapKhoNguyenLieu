@@ -1,29 +1,47 @@
 WITH new_phieu AS (
-    -- 1. Tạo Vỏ Phiếu Xuất
+    -- 1. Tạo Vỏ Phiếu Xuất (Sạch sẽ, không có id_don_hang)
     INSERT INTO public.tr_phieu_xuat_kho (
-        ma_phieu_xuat, id_kho_xuat, id_xuong_nhan, nguoi_nhan_hang, ghi_chu, nguoi_tao
+        ma_phieu_xuat, 
+        id_kho_xuat, 
+        id_xuong_nhan, 
+        nguoi_nhan_hang, 
+        ghi_chu, 
+        nguoi_tao
     )
     VALUES (
-        '{{inp_ma_phieu_xuat.text}}',
-        '{{sel_kho_xuat.selectedOptionValue}}',
-        '{{sel_xuong_nhan.selectedOptionValue}}',
-        '{{inp_nguoi_nhan.text}}',
-        '{{inp_ghi_chu_vo.text}}',
-        '{{appsmith.user.email}}'
+        {{inp_ma_phieu_xuat.text}},
+        {{sel_kho_xuat.selectedOptionValue}},
+        NULLIF({{sel_xuong_nhan.selectedOptionValue || ''}}, '')::uuid,
+        {{inp_nguoi_nhan.text}},
+        {{inp_ghi_chu_vo.text}},
+        {{appsmith.user.email}}
     )
     RETURNING id
 )
--- 2. Đẩy mảng Bảng Tạm vào Chi Tiết Phiếu (Lấy ID vỏ phiếu vừa tạo ở trên)
+
+-- 2. Đẩy mảng Bảng Tạm vào Bảng CHI TIẾT (Đưa id_don_hang vào đây)
 INSERT INTO public.tr_chi_tiet_xuat_kho (
-    id_phieu_xuat, id_vat_tu, id_mau_sac, so_luong_thuc_xuat, ly_do_xuat, ghi_chu, id_btp, nguoi_tao
+    id_phieu_xuat,
+    id_don_hang,       -- <== ĐÃ ĐƯA XUỐNG CHI TIẾT
+    id_vat_tu,
+    id_mau_sac,
+    so_luong_thuc_xuat,
+    ly_do_xuat,
+    ghi_chu,
+    id_btp,
+    nguoi_tao
 )
 SELECT 
     (SELECT id FROM new_phieu),
+    
+    -- Lấy Mã Đơn Hàng từ Dropdown chung nhét vào TỪNG DÒNG chi tiết
+    NULLIF({{sel_don_hang.selectedOptionValue || ''}}, '')::uuid, 
+    
     (elem->>'id_vat_tu')::uuid,
     NULLIF(elem->>'id_mau_sac', 'null')::uuid,
     (elem->>'thuc_xuat')::numeric,
     elem->>'ly_do',
     elem->>'ghi_chu',
     NULLIF(elem->>'id_btp', 'null')::uuid,
-    '{{appsmith.user.email}}'
+    {{appsmith.user.email}}
 FROM jsonb_array_elements( {{ JSON.stringify(this.params.chi_tiet) }}::jsonb ) AS elem;

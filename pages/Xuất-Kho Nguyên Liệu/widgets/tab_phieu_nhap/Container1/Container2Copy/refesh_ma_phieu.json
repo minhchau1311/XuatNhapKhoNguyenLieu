@@ -10,7 +10,16 @@
       "key": "borderRadius"
     }
   ],
-  "dynamicTriggerPathList": [],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
   "iconName": "refresh",
   "isDisabled": false,
   "isLoading": false,
@@ -23,6 +32,9 @@
   "mobileRightColumn": 58,
   "mobileTopRow": 5,
   "needsErrorInfo": false,
+  "onClick": "{{\n  get_MaPhieuXuat.run().then(() => {\n    // Lệnh này bắt buộc ô Input phải xóa bộ nhớ cũ và load ngay mã mới\n    resetWidget('inp_ma_phieu_xuat', true); \n    \n    showAlert('Đã tải mã phiếu mới nhất!', 'success');\n  }).catch(() => {\n    showAlert('Lỗi khi lấy mã phiếu!', 'error');\n  });\n}}",
+  "originalBottomRow": 11,
+  "originalTopRow": 6,
   "parentColumnSpace": 5.311767578125,
   "parentId": "jana3rwpys",
   "parentRowSpace": 10,
@@ -33,5 +45,5 @@
   "type": "ICON_BUTTON_WIDGET",
   "version": 1,
   "widgetId": "dfkm276w8f",
-  "widgetName": "IconButton1"
+  "widgetName": "refesh_ma_phieu"
 }

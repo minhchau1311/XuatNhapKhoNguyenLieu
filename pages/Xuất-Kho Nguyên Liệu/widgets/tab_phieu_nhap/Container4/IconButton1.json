@@ -1,0 +1,47 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 6,
+  "boxShadow": "none",
+  "buttonColor": "#3b82f6",
+  "buttonVariant": "PRIMARY",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconName": "refresh",
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "mgy2pe2ue4",
+  "leftColumn": 47,
+  "minWidth": 50,
+  "mobileBottomRow": 5,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 51,
+  "mobileTopRow": 1,
+  "needsErrorInfo": false,
+  "onClick": "{{\n  // 1. Quét sạch dữ liệu cũ ở 4 ô điều kiện\n  resetWidget('sel_ma_phieu_xuat', true);\n  resetWidget('sel_bo_phan_nhan', true);\n  resetWidget('dtp_tu_ngay_xuat', true);\n  resetWidget('dtp_den_ngay_xuat', true);\n\n  // 2. Chạy lại Query để gọi dữ liệu mới nhất về Iframe\n  get_TraCuu_PhieuXuat.run().then(() => {\n    showAlert('Đã làm mới toàn bộ dữ liệu!', 'success');\n  }).catch(() => {\n    showAlert('Lỗi khi tải dữ liệu!', 'error');\n  });\n}}",
+  "parentColumnSpace": 17.140625,
+  "parentId": "ctzdo7n7hz",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 51,
+  "topRow": 1,
+  "type": "ICON_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "ts4dsemllc",
+  "widgetName": "IconButton1"
+}
