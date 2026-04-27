@@ -1,0 +1,3 @@
+SELECT id AS value, ma_kho || ' - ' || ten_kho AS label 
+FROM public.md_dinh_danh_kho 
+ORDER BY ma_kho ASC;

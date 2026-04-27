@@ -1,0 +1,15 @@
+SELECT 
+    bdh.id AS id_bom,
+    bdh.id_vat_tu,
+    v.ma_vat_tu || ' // ' || v.ten_vat_tu AS vat_tu_chuan,
+    l.ma_loai,
+    m.ten_mau,
+    bdh.dinh_muc, -- Hoặc sl_can_xuat tùy bảng của bác
+    d.ten_dvt
+FROM public.tr_bom_don_hang bdh
+JOIN public.md_danh_muc_vat_tu v ON bdh.id_vat_tu = v.id
+LEFT JOIN public.md_loai_vat_tu l ON v.id_loai_vat_tu = l.id
+LEFT JOIN public.md_mau_sac m ON bdh.id_mau_sac = m.id
+LEFT JOIN public.md_don_vi_tinh d ON bdh.id_don_vi_tinh = d.id
+WHERE bdh.id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}'
+  AND bdh.id_vat_tu_cha::text = '{{sel_btp_bom.selectedOptionValue || ""}}';

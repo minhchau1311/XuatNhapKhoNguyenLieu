@@ -1,0 +1,79 @@
+{
+  "backgroundColor": "#FFFFFF",
+  "borderColor": "#E0DEDE",
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "borderWidth": "1",
+  "bottomRow": 152,
+  "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+  "defaultModel": "{{\n  {\n    data: appsmith.store.bangTamXK || []\n  }\n}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "theme"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "boxShadow"
+    },
+    {
+      "key": "defaultModel"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "onXoaDong"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onResetClick"
+    },
+    {
+      "key": "onXoaDong"
+    }
+  ],
+  "events": [
+    "onResetClick",
+    "onXoaDong"
+  ],
+  "isCanvas": false,
+  "isLoading": false,
+  "isSearchWildcard": true,
+  "isVisible": true,
+  "key": "7mmuv5u9br",
+  "leftColumn": 0,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "mobileBottomRow": 77,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 15,
+  "mobileTopRow": 47,
+  "needsErrorInfo": false,
+  "onResetClick": "{{showAlert('Successfully reset!!', '');}}",
+  "onXoaDong": "{{Store_XuatKho.xoaDong(Custom1.model.idXoa)}}",
+  "originalBottomRow": 152,
+  "originalTopRow": 44,
+  "parentColumnSpace": 20.84375,
+  "parentId": "tiivws3iol",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "rightColumn": 64,
+  "srcDoc": {
+    "css": ".erp-table-container {\n  width: 100%;\n  height: 100%;\n  overflow: auto;\n  font-family: -apple-system, sans-serif;\n}\n\ntable {\n  width: 100%;\n  border-collapse: collapse;\n  font-size: 13px;\n  table-layout: fixed;\n}\n\nth {\n  background-color: #f1f5f9;\n  color: #0f172a;\n  font-weight: bold;\n  text-align: center;\n  padding: 10px 5px;\n  border: 1px solid #cbd5e1;\n  position: sticky;\n  top: 0;\n  z-index: 10;\n  word-wrap: break-word;\n}\n\ntd {\n  padding: 8px 5px;\n  border: 1px solid #cbd5e1;\n  color: #1e293b;\n  vertical-align: middle;\n  text-align: center;\n  word-wrap: break-word;\n  overflow-wrap: break-word;\n  white-space: normal;\n}\n\ntd:nth-child(2), td:nth-child(3), td:nth-child(14), td:nth-child(15) {\n  text-align: left;\n}\n\n.col-highlight {\n  font-weight: bold;\n  color: #0369a1;\n}\n\n.text-red {\n  color: #dc2626;\n  font-weight: bold;\n}\n\n.text-green {\n  color: #15803d;\n  font-weight: bold;\n}\n\n.btn-delete {\n  background: #ef4444;\n  color: white;\n  border: none;\n  padding: 4px 8px;\n  border-radius: 4px;\n  cursor: pointer;\n}",
+    "html": "<div class=\"erp-table-container\">\n    <table id=\"xuatKhoTable\">\n        <thead>\n            <tr>\n                <th style=\"width: 40px;\">Xóa</th>\n                <th style=\"width: 140px;\">Nguồn (BTP)</th>\n                <th style=\"width: 140px;\">Mã Vật Tư</th>\n                <th style=\"width: 70px;\">Màu Sắc</th>\n                <th style=\"width: 50px;\">ĐVT</th>\n                <th style=\"width: 70px;\">Định Mức</th>\n                <th style=\"width: 90px;\">Tổng Cần (BOM)</th>\n                <th style=\"width: 80px;\">Yêu Cầu Xuất</th>\n                <th style=\"width: 80px;\" class=\"col-merge\">Tồn Thực Tế</th>\n                <th style=\"width: 80px;\" class=\"col-merge\">Tồn Khả Dụng</th>\n                <th style=\"width: 80px;\" class=\"col-merge\">Tổng Y/C Xuất</th>\n                <th style=\"width: 80px;\" class=\"col-highlight\">Thực Xuất</th>\n                <th style=\"width: 70px;\">Đã Xuất</th>\n                <th style=\"width: 100px;\">Lý Do</th>\n                <th style=\"width: 120px;\">Ghi Chú</th>\n            </tr>\n        </thead>\n        <tbody id=\"tableBody\"></tbody>\n    </table>\n</div>",
+    "js": "appsmith.onReady(() => {\n  appsmith.onModelChange(model => {\n    renderTable(model.data);\n  });\n});\nfunction renderTable(data) {\n  const tbody = document.getElementById('tableBody');\n  if (!data || data.length === 0) {\n    tbody.innerHTML = '<tr><td colspan=\"15\" style=\"text-align:center; padding: 30px; color: #64748b;\">Bảng xuất kho trống...</td></tr>';\n    return;\n  }\n  const groups = {};\n  data.forEach(item => {\n    const key = String(item.id_vat_tu) + '_' + String(item.id_mau_sac || 'NO') + '_' + String(item.ly_do) + '_' + String(item.nguon_du_lieu);\n    if (!groups[key]) {\n      groups[key] = {\n        items: [],\n        tong_yc_xuat: 0,\n        ton_thuc_te: parseFloat(item.ton_thuc_te) || 0,\n        ton_kha_dung_dau_vao: parseFloat(item.ton_kha_dung_hien_tai) || 0,\n        // Kế thừa tồn\n        da_xuat_tong: parseFloat(item.da_xuat) || 0\n      };\n    }\n    groups[key].items.push(item);\n    groups[key].tong_yc_xuat += parseFloat(item.yeu_cau_xuat) || 0;\n  });\n  let html = '';\n  for (const key in groups) {\n    const group = groups[key];\n    const rowSpan = group.items.length;\n    group.items.forEach((item, index) => {\n      let bgColor = item.mau_nen || '#ffffff';\n      let st = `style=\"background-color: ${bgColor};\"`; // ÉP MÀU TỪNG Ô\n\n      html += `<tr>`;\n      html += `<td ${st}><button class=\"btn-delete\" onclick=\"window.deleteRow('${item.id_tam}')\">X</button></td>`;\n      html += `<td ${st}><strong>${item.nguon_du_lieu}</strong></td>`;\n      html += `<td ${st}>${item.vat_tu}</td>`;\n      let mauHienThi = item.mau_sac;\n      if (!mauHienThi || mauHienThi === 'NR' || mauHienThi === 'Không màu' || mauHienThi === 'null') mauHienThi = '\\\\';\n      html += `<td ${st}>${mauHienThi}</td>`;\n      html += `<td ${st}>${item.dvt || '\\\\'}</td>`;\n      html += `<td ${st}>${item.dinh_muc > 0 ? item.dinh_muc : '\\\\'}</td>`;\n      html += `<td ${st}>${item.is_bom ? item.tong_can_bom : '\\\\'}</td>`;\n      html += `<td ${st}>${item.yeu_cau_xuat != null ? item.yeu_cau_xuat : 0}</td>`;\n      if (index === 0) {\n        html += `<td rowspan=\"${rowSpan}\" class=\"col-merge\" ${st}>${group.ton_thuc_te}</td>`;\n        html += `<td rowspan=\"${rowSpan}\" class=\"col-merge\" ${st}><strong>${group.ton_kha_dung_dau_vao}</strong></td>`;\n        let colorYC = group.tong_yc_xuat > group.ton_kha_dung_dau_vao ? 'text-red' : '';\n        html += `<td rowspan=\"${rowSpan}\" class=\"col-merge ${colorYC}\" ${st}><strong>${group.tong_yc_xuat}</strong></td>`;\n      }\n      let slThucXuat = item.thuc_xuat != null ? item.thuc_xuat : 0;\n      let thucXuatTextClass = slThucXuat < (item.yeu_cau_xuat || 0) && bgColor === '#fee2e2' ? 'text-red' : 'text-green';\n      html += `<td class=\"col-highlight ${thucXuatTextClass}\" ${st}>${slThucXuat}</td>`;\n      html += `<td ${st}>${item.da_xuat != null ? item.da_xuat : 0}</td>`;\n      html += `<td ${st}>${item.ly_do || ''}</td>`;\n      html += `<td ${st}>${item.ghi_chu || ''}</td>`;\n      html += `</tr>`;\n    });\n  }\n  tbody.innerHTML = html;\n}\nwindow.deleteRow = function (idTam) {\n  appsmith.updateModel({\n    idXoa: idTam\n  });\n  appsmith.triggerEvent(\"onXoaDong\");\n};"
+  },
+  "theme": "{{appsmith.theme}}",
+  "topRow": 44,
+  "type": "CUSTOM_WIDGET",
+  "uncompiledSrcDoc": {
+    "css": ".erp-table-container { width: 100%; height: 100%; overflow: auto; font-family: -apple-system, sans-serif; }\ntable { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }\nth { background-color: #f1f5f9; color: #0f172a; font-weight: bold; text-align: center; padding: 10px 5px; border: 1px solid #cbd5e1; position: sticky; top: 0; z-index: 10; word-wrap: break-word; }\ntd { padding: 8px 5px; border: 1px solid #cbd5e1; color: #1e293b; vertical-align: middle; text-align: center; word-wrap: break-word; overflow-wrap: break-word; white-space: normal; }\ntd:nth-child(2), td:nth-child(3), td:nth-child(14), td:nth-child(15) { text-align: left; }\n.col-highlight { font-weight: bold; color: #0369a1; }\n.text-red { color: #dc2626; font-weight: bold; }\n.text-green { color: #15803d; font-weight: bold; }\n.btn-delete { background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; }",
+    "html": "<div class=\"erp-table-container\">\n    <table id=\"xuatKhoTable\">\n        <thead>\n            <tr>\n                <th style=\"width: 40px;\">Xóa</th>\n                <th style=\"width: 140px;\">Nguồn (BTP)</th>\n                <th style=\"width: 140px;\">Mã Vật Tư</th>\n                <th style=\"width: 70px;\">Màu Sắc</th>\n                <th style=\"width: 50px;\">ĐVT</th>\n                <th style=\"width: 70px;\">Định Mức</th>\n                <th style=\"width: 90px;\">Tổng Cần (BOM)</th>\n                <th style=\"width: 80px;\">Yêu Cầu Xuất</th>\n                <th style=\"width: 80px;\" class=\"col-merge\">Tồn Thực Tế</th>\n                <th style=\"width: 80px;\" class=\"col-merge\">Tồn Khả Dụng</th>\n                <th style=\"width: 80px;\" class=\"col-merge\">Tổng Y/C Xuất</th>\n                <th style=\"width: 80px;\" class=\"col-highlight\">Thực Xuất</th>\n                <th style=\"width: 70px;\">Đã Xuất</th>\n                <th style=\"width: 100px;\">Lý Do</th>\n                <th style=\"width: 120px;\">Ghi Chú</th>\n            </tr>\n        </thead>\n        <tbody id=\"tableBody\"></tbody>\n    </table>\n</div>",
+    "js": "appsmith.onReady(() => { appsmith.onModelChange((model) => { renderTable(model.data); }); });\n\nfunction renderTable(data) {\n    const tbody = document.getElementById('tableBody');\n    if (!data || data.length === 0) {\n        tbody.innerHTML = '<tr><td colspan=\"15\" style=\"text-align:center; padding: 30px; color: #64748b;\">Bảng xuất kho trống...</td></tr>'; return;\n    }\n\n    const groups = {};\n    data.forEach(item => {\n        const key = String(item.id_vat_tu) + '_' + String(item.id_mau_sac || 'NO') + '_' + String(item.ly_do) + '_' + String(item.nguon_du_lieu);\n        if (!groups[key]) {\n            groups[key] = {\n                items: [], tong_yc_xuat: 0,\n                ton_thuc_te: parseFloat(item.ton_thuc_te) || 0, \n                ton_kha_dung_dau_vao: parseFloat(item.ton_kha_dung_hien_tai) || 0, // Kế thừa tồn\n                da_xuat_tong: parseFloat(item.da_xuat) || 0\n            };\n        }\n        groups[key].items.push(item);\n        groups[key].tong_yc_xuat += parseFloat(item.yeu_cau_xuat) || 0;\n    });\n\n    let html = '';\n    for (const key in groups) {\n        const group = groups[key];\n        const rowSpan = group.items.length;\n\n        group.items.forEach((item, index) => {\n            let bgColor = item.mau_nen || '#ffffff';\n            let st = `style=\"background-color: ${bgColor};\"`; // ÉP MÀU TỪNG Ô\n            \n            html += `<tr>`;\n            html += `<td ${st}><button class=\"btn-delete\" onclick=\"window.deleteRow('${item.id_tam}')\">X</button></td>`;\n            html += `<td ${st}><strong>${item.nguon_du_lieu}</strong></td>`; \n            html += `<td ${st}>${item.vat_tu}</td>`;\n            \n            let mauHienThi = item.mau_sac; if (!mauHienThi || mauHienThi === 'NR' || mauHienThi === 'Không màu' || mauHienThi === 'null') mauHienThi = '\\\\';\n            html += `<td ${st}>${mauHienThi}</td>`;\n            html += `<td ${st}>${item.dvt || '\\\\'}</td>`; \n            html += `<td ${st}>${item.dinh_muc > 0 ? item.dinh_muc : '\\\\'}</td>`;\n            html += `<td ${st}>${item.is_bom ? item.tong_can_bom : '\\\\'}</td>`;\n            html += `<td ${st}>${item.yeu_cau_xuat != null ? item.yeu_cau_xuat : 0}</td>`;\n            \n            if (index === 0) {\n                html += `<td rowspan=\"${rowSpan}\" class=\"col-merge\" ${st}>${group.ton_thuc_te}</td>`;\n                html += `<td rowspan=\"${rowSpan}\" class=\"col-merge\" ${st}><strong>${group.ton_kha_dung_dau_vao}</strong></td>`;\n                let colorYC = group.tong_yc_xuat > group.ton_kha_dung_dau_vao ? 'text-red' : '';\n                html += `<td rowspan=\"${rowSpan}\" class=\"col-merge ${colorYC}\" ${st}><strong>${group.tong_yc_xuat}</strong></td>`;\n            }\n\n            let slThucXuat = item.thuc_xuat != null ? item.thuc_xuat : 0;\n            let thucXuatTextClass = (slThucXuat < (item.yeu_cau_xuat || 0) && bgColor === '#fee2e2') ? 'text-red' : 'text-green';\n            html += `<td class=\"col-highlight ${thucXuatTextClass}\" ${st}>${slThucXuat}</td>`;\n            \n            html += `<td ${st}>${item.da_xuat != null ? item.da_xuat : 0}</td>`;\n            html += `<td ${st}>${item.ly_do || ''}</td>`;\n            html += `<td ${st}>${item.ghi_chu || ''}</td>`;\n            html += `</tr>`;\n        });\n    }\n    tbody.innerHTML = html;\n}\n\nwindow.deleteRow = function(idTam) { appsmith.updateModel({ idXoa: idTam }); appsmith.triggerEvent(\"onXoaDong\"); };"
+  },
+  "version": 1,
+  "widgetId": "mnjdxov0cl",
+  "widgetName": "Custom1"
+}

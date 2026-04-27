@@ -1,0 +1,5 @@
+SELECT 
+    ma_hanh_dong AS value, 
+    ma_hanh_dong || ' - ' || ten_hanh_dong AS label 
+FROM public.md_hanh_dong 
+ORDER BY ten_hanh_dong;

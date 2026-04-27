@@ -1,0 +1,45 @@
+{
+  "animateLoading": true,
+  "borderOpacity": 100,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "borderWidth": 1,
+  "bottomRow": 109,
+  "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "boxShadow"
+    },
+    {
+      "key": "srcDoc"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "flexVerticalAlignment": "start",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "n0pisvr3k9",
+  "leftColumn": 0,
+  "mobileBottomRow": 43,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 24,
+  "mobileTopRow": 11,
+  "needsErrorInfo": false,
+  "originalBottomRow": 109,
+  "originalTopRow": 11,
+  "parentColumnSpace": 20.921875,
+  "parentId": "o245huzcj6",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "source": "",
+  "srcDoc": "{{\n  (function() {\n    // 1. Kiểm tra xem query đã có dữ liệu chưa\n    const data = get_TraCuu_PhieuXuat.data || [];\n    \n    // Nếu chưa chọn phiếu hoặc không có dữ liệu thì hiện thông báo\n    if (data.length === 0) {\n      return `<div style=\"font-family: sans-serif; text-align: center; margin-top: 50px; color: gray;\">\n                <h3>Vui lòng chọn điều kiện và bấm Tra cứu...</h3>\n              </div>`;\n    }\n\n    // 2. Lấy thông tin chung của Phiếu (Lấy từ dòng đầu tiên)\n    const phieu = data[0];\n\n    // 3. Tạo các dòng chi tiết vật tư\n    const tableRows = data.map((row, index) => {\n      return `\n        <tr>\n          <td style=\"text-align: center;\">${index + 1}</td>\n          <td>${row['Mã BTP'] || ''}</td>\n          <td>${row['Mã Vật Tư'] || ''}</td>\n          <td>${row['Tên Vật Tư'] || ''}</td>\n          <td>${row['Đơn Vị Nhận'] || ''}</td>\n          <td>${row['Mã Đơn Hàng'] || ''}</td>\n          <td style=\"text-align: right;\"><b>${row['Số Lượng'] || 0}</b></td>\n          <td style=\"text-align: center;\">${row['ĐVT'] || ''}</td>\n          <td>${row['Ghi Chú'] || ''}</td>\n        </tr>\n      `;\n    }).join('');\n\n    // 4. Lắp ráp thành một trang HTML hoàn chỉnh (Có sẵn CSS)\n    return `\n      <!DOCTYPE html>\n      <html>\n      <head>\n        <meta charset=\"utf-8\">\n        <style>\n          body { font-family: 'Arial', sans-serif; padding: 20px; color: #333; }\n          h2 { text-align: center; margin-bottom: 5px; }\n          .header-info { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 14px; }\n          table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 13px; }\n          th, td { border: 1px solid #000; padding: 8px; text-align: left; }\n          th { background-color: #f2f2f2; text-align: center; }\n          .footer { display: flex; justify-content: space-between; text-align: center; margin-top: 50px; }\n        </style>\n      </head>\n      <body>\n        <h2>PHIẾU XUẤT KHO NGUYÊN LIỆU</h2>\n        <div style=\"text-align: center; margin-bottom: 20px;\">\n          <i>Ngày xuất: ${phieu['Ngày Xuất'] || ''}</i>\n        </div>\n\n        <div class=\"header-info\">\n          <div>\n            <p><b>Mã phiếu xuất:</b> ${phieu['Mã Phiếu Xuất'] || ''}</p>\n            <p><b>Xuất cho bộ phận:</b> ${phieu['Đơn Vị Nhận'] || ''}</p>\n          </div>\n          <div>\n            <p><b>Người nhận hàng:</b> ${phieu['Người Nhận'] || ''}</p>\n          </div>\n        </div>\n\n        <table>\n          <thead>\n            <tr>\n              <th width=\"5%\">STT</th>\n              <th width=\"10%\">Mã BTP</th>\n              <th width=\"10%\">Mã VT</th>\n              <th width=\"20%\">Tên Vật Tư</th>\n              <th width=\"15%\">Đơn Vị Nhận</th>\n              <th width=\"10%\">Mã Đơn Hàng</th>\n              <th width=\"10%\">Số Lượng</th>\n              <th width=\"5%\">ĐVT</th>\n              <th width=\"15%\">Ghi Chú</th>\n            </tr>\n          </thead>\n          <tbody>\n            ${tableRows}\n          </tbody>\n        </table>\n\n        <div class=\"footer\">\n          <div>\n            <b>Người lập phiếu</b><br><br><br><span>(Ký, ghi rõ họ tên)</span>\n          </div>\n          <div>\n            <b>Người nhận hàng</b><br><br><br><span>(Ký, ghi rõ họ tên)</span>\n          </div>\n          <div>\n            <b>Thủ kho</b><br><br><br><span>(Ký, ghi rõ họ tên)</span>\n          </div>\n        </div>\n      </body>\n      </html>\n    `;\n  })()\n}}",
+  "topRow": 11,
+  "type": "IFRAME_WIDGET",
+  "version": 1,
+  "widgetId": "6zu6dnea14",
+  "widgetName": "Iframe_xuat"
+}

@@ -1,0 +1,33 @@
+SELECT
+    px.ma_phieu_xuat AS "Mã Phiếu Xuất",
+    TO_CHAR(px.created_at, 'DD/MM/YYYY HH24:MI') AS "Ngày Xuất",
+    bp.ten_bo_phan AS "Đơn Vị Nhận",
+    dh.ma_don_hang AS "Mã Đơn Hàng",
+    btp.ma_vat_tu AS "Mã BTP",
+    vt.ma_vat_tu AS "Mã Vật Tư",
+    vt.ten_vat_tu AS "Tên Vật Tư",
+    ms.ten_mau AS "Màu Sắc",
+    ctx.so_luong_thuc_xuat AS "Số Lượng",
+    dvt.ten_dvt AS "ĐVT",
+    px.nguoi_nhan_hang AS "Người Nhận",
+    px.ghi_chu AS "Ghi Chú"
+FROM tr_phieu_xuat_kho px
+LEFT JOIN md_bo_phan bp ON px.id_xuong_nhan = bp.id
+LEFT JOIN tr_chi_tiet_xuat_kho ctx ON px.id = ctx.id_phieu_xuat
+LEFT JOIN md_danh_muc_vat_tu vt ON ctx.id_vat_tu = vt.id
+LEFT JOIN md_don_vi_tinh dvt ON vt.id_don_vi_tinh = dvt.id
+LEFT JOIN md_mau_sac ms ON ctx.id_mau_sac = ms.id
+LEFT JOIN md_danh_muc_vat_tu btp ON ctx.id_btp = btp.id
+-- Bắt cầu qua Nhật Ký Kho để lấy Mã Đơn Hàng
+LEFT JOIN tr_nhat_ky_kho nkk ON nkk.id_chi_tiet_xuat_kho = ctx.id
+LEFT JOIN tr_thong_tin_don_hang dh ON nkk.id_don_hang = dh.id
+WHERE
+    -- Điều kiện lọc theo Bộ Phận Nhận
+    ({{sel_bo_phan_nhan.selectedOptionValue || ""}} = '' OR bp.id::text = {{sel_bo_phan_nhan.selectedOptionValue}})
+    -- Điều kiện lọc theo Mã Phiếu
+    AND ({{sel_ma_phieu_xuat.selectedOptionValue || ""}} = '' OR px.ma_phieu_xuat = {{sel_ma_phieu_xuat.selectedOptionValue}})
+    -- Điều kiện lọc theo Ngày bắt đầu (Nếu không chọn thì mặc định từ năm 2000)
+    AND (px.created_at >= {{dtp_tu_ngay_xuat.selectedDate || "2000-01-01"}})
+    -- Điều kiện lọc theo Ngày kết thúc (Nếu không chọn thì mặc định đến năm 2100)
+    AND (px.created_at <= {{dtp_den_ngay_xuat.selectedDate || "2100-01-01"}})
+ORDER BY px.created_at DESC;

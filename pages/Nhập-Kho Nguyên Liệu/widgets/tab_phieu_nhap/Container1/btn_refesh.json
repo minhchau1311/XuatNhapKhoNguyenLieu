@@ -1,0 +1,49 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 38,
+  "boxShadow": "none",
+  "buttonColor": "#3b82f6",
+  "buttonVariant": "PRIMARY",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "iconName": "refresh",
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "1eepibdro2",
+  "leftColumn": 44,
+  "minWidth": 50,
+  "mobileBottomRow": 25,
+  "mobileLeftColumn": 43,
+  "mobileRightColumn": 47,
+  "mobileTopRow": 21,
+  "needsErrorInfo": false,
+  "onClick": "{{Store_NhapKho.lamMoiToanBo()}}",
+  "originalBottomRow": 38,
+  "originalTopRow": 33,
+  "parentColumnSpace": 20.282470703125,
+  "parentId": "ephb9d7nj1",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "hug",
+  "rightColumn": 48,
+  "topRow": 33,
+  "type": "ICON_BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "ju213d1vmq",
+  "widgetName": "btn_refesh"
+}

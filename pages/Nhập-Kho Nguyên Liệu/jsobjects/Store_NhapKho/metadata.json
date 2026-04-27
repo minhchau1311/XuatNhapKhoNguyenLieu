@@ -1,0 +1,16 @@
+{
+  "gitSyncId": "69ddd6b435f9a2f5bdbc041f_0273963e-5958-400a-be7b-27c8cca4cd2c",
+  "id": "Nhập-Kho Nguyên Liệu_Store_NhapKho",
+  "unpublishedCollection": {
+    "name": "Store_NhapKho",
+    "pageId": "Nhập-Kho Nguyên Liệu",
+    "pluginId": "js-plugin",
+    "pluginType": "JS",
+    "variables": [
+      {
+        "name": "bangTamNK",
+        "value": "appsmith.store.bangTamNK || []"
+      }
+    ]
+  }
+}

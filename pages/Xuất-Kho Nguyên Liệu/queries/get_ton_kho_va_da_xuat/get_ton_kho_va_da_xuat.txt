@@ -1,0 +1,19 @@
+SELECT 
+    tk.id_vat_tu, 
+    -- ÉP KHUÔN MÀU: Nếu null thì tự biến thành chữ 'NONE'
+    COALESCE(tk.id_mau_sac::text, 'NONE') AS id_mau_sac_clean,
+    tk.id_mau_sac,
+    tk.so_luong_ton AS ton_thuc_te,
+    tk.so_luong_giu_cho AS giu_cho,
+    (tk.so_luong_ton - tk.so_luong_giu_cho) AS ton_kha_dung,
+    
+    COALESCE(
+        (SELECT SUM(so_luong) 
+         FROM public.tr_nhat_ky_kho nk 
+         WHERE nk.id_vat_tu = tk.id_vat_tu 
+           AND nk.id_mau_sac IS NOT DISTINCT FROM tk.id_mau_sac 
+           AND nk.id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}' 
+           AND nk.loai_giao_dich = 'XUAT'), 
+    0) AS da_xuat
+FROM public.tr_ton_kho tk
+WHERE tk.id_kho::text = '{{this.params.id_kho_param || sel_kho_xuat.selectedOptionValue || ""}}';

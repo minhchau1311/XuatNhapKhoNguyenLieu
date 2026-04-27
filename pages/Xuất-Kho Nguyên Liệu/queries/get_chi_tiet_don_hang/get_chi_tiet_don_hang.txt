@@ -1,0 +1,3 @@
+SELECT so_luong 
+FROM public.tr_thong_tin_don_hang 
+WHERE id::text = '{{sel_don_hang.selectedOptionValue || ""}}';

@@ -1,0 +1,13 @@
+SELECT 
+    ct.id AS value, 
+    vt.ma_vat_tu || ' - (' || dvt.ten_dvt || ') - ' || vt.ten_vat_tu AS label,
+    ct.id_vat_tu,
+    ct.id_mau_sac,
+    ms.ten_mau,
+    ct.so_luong AS sl_dat,
+    dvt.ten_dvt -- Lấy thêm trường này ngầm để đẩy xuống bảng tạm
+FROM public.tr_chi_tiet_don_mua ct
+JOIN public.md_danh_muc_vat_tu vt ON ct.id_vat_tu = vt.id
+LEFT JOIN public.md_mau_sac ms ON ct.id_mau_sac = ms.id
+LEFT JOIN public.md_don_vi_tinh dvt ON vt.id_don_vi_tinh = dvt.id
+WHERE ct.id_don_mua::text = '{{sel_po_nguon.selectedOptionValue || '00000000-0000-0000-0000-000000000000'}}';

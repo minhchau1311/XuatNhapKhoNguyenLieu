@@ -1,0 +1,13 @@
+INSERT INTO public.tr_phieu_nhap_kho (
+    ma_phieu_nhap, 
+    id_kho, 
+    id_don_mua, 
+    id_doi_tac, 
+    nguoi_giao_hang
+) VALUES (
+    {{inp_ma_phieu_nhap.text}},
+    {{sel_kho.selectedOptionValue}}::uuid,
+    NULLIF({{sel_po_nguon.selectedOptionValue}}, '')::uuid,
+    NULLIF({{sel_don_vi_giao_hang.selectedOptionValue}}, '')::uuid,
+    {{inp_nguoi_giao.text}}
+) RETURNING id;

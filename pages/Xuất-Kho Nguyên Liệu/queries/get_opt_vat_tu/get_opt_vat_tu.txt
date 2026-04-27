@@ -1,0 +1,7 @@
+SELECT 
+    vt.id AS value, 
+    vt.ma_vat_tu || ' - ' || vt.ten_vat_tu AS label,
+    dvt.ten_dvt
+FROM public.md_danh_muc_vat_tu vt
+LEFT JOIN public.md_don_vi_tinh dvt ON vt.id_don_vi_tinh = dvt.id
+ORDER BY vt.ma_vat_tu;

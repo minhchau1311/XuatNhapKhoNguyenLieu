@@ -1,0 +1,16 @@
+SELECT 
+    ctm.id AS id_chi_tiet_don_mua,
+    vt.id AS id_vat_tu,
+    vt.ten_vat_tu,
+    ms.id AS id_mau_sac,
+    ms.ten_mau,
+    dvt.ten_dvt,
+    ctm.so_luong AS sl_dat,
+    -- Check xem vật tư này trước đây đã nhập lần nào chưa (nhập lẻ tẻ)
+    COALESCE((SELECT SUM(so_luong_thuc_nhan) FROM public.tr_chi_tiet_nhap_kho WHERE id_chi_tiet_don_mua = ctm.id), 0) AS sl_da_nhap_cu
+FROM public.tr_chi_tiet_don_mua ctm
+JOIN public.md_danh_muc_vat_tu vt ON ctm.id_vat_tu = vt.id
+JOIN public.md_don_vi_tinh dvt ON vt.id_don_vi_tinh = dvt.id
+LEFT JOIN public.md_mau_sac ms ON ctm.id_mau_sac = ms.id
+-- Dùng NULLIF để nếu dropdown PO bị trống thì nó an toàn trả về rỗng, không báo lỗi UUID
+WHERE ctm.id_don_mua = NULLIF({{sel_po_nguon.selectedOptionValue}}, '')::uuid;

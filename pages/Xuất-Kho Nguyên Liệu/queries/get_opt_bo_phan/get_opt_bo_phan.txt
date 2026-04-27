@@ -1,0 +1,2 @@
+SELECT id AS value, ten_bo_phan AS label 
+FROM public.md_bo_phan ORDER BY ten_bo_phan;

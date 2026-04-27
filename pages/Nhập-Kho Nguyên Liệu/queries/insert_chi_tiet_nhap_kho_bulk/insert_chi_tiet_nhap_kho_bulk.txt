@@ -1,0 +1,16 @@
+INSERT INTO public.tr_chi_tiet_nhap_kho (
+    id_phieu_nhap,
+    id_chi_tiet_don_mua,
+    id_vat_tu,
+    id_mau_sac,
+    so_luong_thuc_nhan,
+    ghi_chu
+)
+SELECT 
+    (elem->>'id_phieu_nhap')::uuid,
+    NULLIF(elem->>'id_chi_tiet_don_mua', '')::uuid,
+    (elem->>'id_vat_tu')::uuid,
+    NULLIF(elem->>'id_mau_sac', '')::uuid,
+    (elem->>'so_luong_thuc_nhan')::numeric,
+    elem->>'ghi_chu'
+FROM jsonb_array_elements({{this.params.mang_du_lieu}}::jsonb) AS elem;

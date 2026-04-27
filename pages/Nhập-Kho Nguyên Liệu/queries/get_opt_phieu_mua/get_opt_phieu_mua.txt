@@ -1,0 +1,8 @@
+SELECT 
+    dm.id AS value, 
+    dm.ma_don_mua || ' ||| ' || dt.ten_doi_tac AS label
+FROM public.tr_don_mua_hang dm
+JOIN public.md_doi_tac dt ON dm.id_doi_tac = dt.id
+-- Sửa lại cho khớp y chang tên Widget thực tế trên màn hình của bác
+WHERE dm.id_doi_tac::text = {{sel_don_vi_giao_hang.selectedOptionValue}}
+ORDER BY dm.created_at DESC;

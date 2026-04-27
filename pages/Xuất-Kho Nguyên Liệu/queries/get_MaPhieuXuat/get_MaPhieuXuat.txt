@@ -1,0 +1,3 @@
+SELECT ma_phieu_xuat AS value, ma_phieu_xuat AS label 
+FROM tr_phieu_xuat_kho 
+ORDER BY created_at DESC;

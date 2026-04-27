@@ -1,0 +1,27 @@
+WITH RECURSIVE bom_tree AS (
+    SELECT id, id_vat_tu, id_vat_tu_cha, id_mau_sac, sl_can_xuat as dinh_muc, id_don_vi_tinh 
+    FROM public.tr_bom_don_hang
+    WHERE id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}' 
+      AND id_vat_tu_cha::text = '{{sel_btp_thu_cong.selectedOptionValue || ""}}' -- Ràng buộc theo BTP thủ công
+    
+    UNION ALL
+    
+    SELECT b.id, b.id_vat_tu, b.id_vat_tu_cha, b.id_mau_sac, (b.sl_can_xuat * t.dinh_muc) as dinh_muc, b.id_don_vi_tinh
+    FROM public.tr_bom_don_hang b
+    JOIN bom_tree t ON b.id_vat_tu_cha = t.id_vat_tu
+    WHERE b.id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}'
+)
+SELECT 
+    t.id as id_bom, -- Trả về ID dòng BOM
+    t.id_vat_tu, 
+    v.ma_vat_tu || ' - ' || v.ten_vat_tu AS ten_vat_tu,
+    t.id_mau_sac, 
+    COALESCE(m.ten_mau, 'Không màu') AS mau_sac,
+    (v.ma_vat_tu || ' - ' || v.ten_vat_tu || ' // ' || COALESCE(m.ten_mau, '\')) AS label_hien_thi,
+    t.dinh_muc, 
+    d.ten_dvt AS dvt
+FROM bom_tree t
+JOIN public.md_danh_muc_vat_tu v ON t.id_vat_tu = v.id
+LEFT JOIN public.md_mau_sac m ON t.id_mau_sac = m.id
+LEFT JOIN public.md_don_vi_tinh d ON t.id_don_vi_tinh = d.id
+WHERE NOT EXISTS (SELECT 1 FROM public.tr_bom_don_hang sub WHERE sub.id_vat_tu_cha = t.id_vat_tu AND sub.id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}');

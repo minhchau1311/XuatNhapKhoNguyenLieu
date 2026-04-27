@@ -1,0 +1,29 @@
+WITH new_phieu AS (
+    -- 1. Tạo Vỏ Phiếu Xuất
+    INSERT INTO public.tr_phieu_xuat_kho (
+        ma_phieu_xuat, id_kho_xuat, id_xuong_nhan, nguoi_nhan_hang, ghi_chu, nguoi_tao
+    )
+    VALUES (
+        '{{inp_ma_phieu_xuat.text}}',
+        '{{sel_kho_xuat.selectedOptionValue}}',
+        '{{sel_xuong_nhan.selectedOptionValue}}',
+        '{{inp_nguoi_nhan.text}}',
+        '{{inp_ghi_chu_vo.text}}',
+        '{{appsmith.user.email}}'
+    )
+    RETURNING id
+)
+-- 2. Đẩy mảng Bảng Tạm vào Chi Tiết Phiếu (Lấy ID vỏ phiếu vừa tạo ở trên)
+INSERT INTO public.tr_chi_tiet_xuat_kho (
+    id_phieu_xuat, id_vat_tu, id_mau_sac, so_luong_thuc_xuat, ly_do_xuat, ghi_chu, id_btp, nguoi_tao
+)
+SELECT 
+    (SELECT id FROM new_phieu),
+    (elem->>'id_vat_tu')::uuid,
+    NULLIF(elem->>'id_mau_sac', 'null')::uuid,
+    (elem->>'thuc_xuat')::numeric,
+    elem->>'ly_do',
+    elem->>'ghi_chu',
+    NULLIF(elem->>'id_btp', 'null')::uuid,
+    '{{appsmith.user.email}}'
+FROM jsonb_array_elements( {{ JSON.stringify(this.params.chi_tiet) }}::jsonb ) AS elem;

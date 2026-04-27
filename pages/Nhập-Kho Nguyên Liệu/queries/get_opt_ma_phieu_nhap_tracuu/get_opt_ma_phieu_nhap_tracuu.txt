@@ -1,0 +1,5 @@
+SELECT 
+    ma_phieu_nhap AS value, 
+    ma_phieu_nhap AS label
+FROM public.tr_phieu_nhap_kho
+ORDER BY created_at DESC;

@@ -1,0 +1,5 @@
+SELECT vt.id AS value, vt.ma_vat_tu || ' - ' || vt.ten_vat_tu AS label
+FROM public.tr_chi_tiet_don_mua ct
+JOIN public.md_danh_muc_vat_tu vt ON ct.id_vat_tu = vt.id
+WHERE ct.id_don_mua::text = {{sel_phieu_mua.selectedOptionValue}}
+GROUP BY vt.id, vt.ma_vat_tu, vt.ten_vat_tu;

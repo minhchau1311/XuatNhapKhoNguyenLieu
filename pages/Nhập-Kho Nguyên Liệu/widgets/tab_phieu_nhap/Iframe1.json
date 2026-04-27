@@ -1,0 +1,45 @@
+{
+  "animateLoading": true,
+  "borderOpacity": 100,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "borderWidth": 1,
+  "bottomRow": 109,
+  "boxShadow": "{{appsmith.theme.boxShadow.appBoxShadow}}",
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "boxShadow"
+    },
+    {
+      "key": "srcDoc"
+    }
+  ],
+  "dynamicTriggerPathList": [],
+  "flexVerticalAlignment": "start",
+  "isLoading": false,
+  "isVisible": true,
+  "key": "n0pisvr3k9",
+  "leftColumn": 0,
+  "mobileBottomRow": 43,
+  "mobileLeftColumn": 0,
+  "mobileRightColumn": 24,
+  "mobileTopRow": 11,
+  "needsErrorInfo": false,
+  "originalBottomRow": 109,
+  "originalTopRow": 11,
+  "parentColumnSpace": 20.921875,
+  "parentId": "x0hvaikqo9",
+  "parentRowSpace": 10,
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 64,
+  "source": "",
+  "srcDoc": "{{\n  (function() {\n    const data = get_tra_cuu_phieu.data || [];\n    \n    if (data.length === 0) {\n      return `\n        <div style=\"font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; color: #888;\">\n          <h2>📭 Không tìm thấy dữ liệu nhập kho trong khoảng thời gian này!</h2>\n        </div>\n      `;\n    }\n    \n    let rowsHTML = data.map(item => `\n      <tr>\n        <td style=\"white-space: nowrap;\">\n            <div style=\"font-weight: bold; color: #1a73e8;\">${item.ma_phieu_nhap || '-'}</div>\n            <div style=\"font-size: 11px; color: #666; margin-top: 4px;\">${moment(item.ngay_nhap_hang).format('DD/MM/YYYY')}</div>\n        </td>\n\n        <td>\n            <div style=\"font-weight: 600; color: #333;\">${item.ten_doi_tac || '-'}</div>\n            <div style=\"font-size: 11px; color: #555; margin-top: 4px;\"><b>Kho:</b> ${item.ten_kho || '-'}</div>\n        </td>\n\n        <td style=\"font-size: 12px; white-space: nowrap;\">\n            <div><span style=\"color: #777;\">Giao:</span> ${item.nguoi_giao_hang || '-'}</div>\n            <div style=\"margin-top: 4px;\"><span style=\"color: #777;\">Lập:</span> ${item.nguoi_tao || '-'}</div>\n        </td>\n\n        <td>\n            <span style=\"font-weight: 600; color: #333;\">${item.ma_vat_tu || '-'}</span><br>\n            <small style=\"color: #666;\">${item.ten_vat_tu || ''}</small>\n        </td>\n\n        <td style=\"text-align: center; font-size: 12px;\">${item.ten_mau || '-'}</td>\n\n        <td style=\"font-weight: 700; color: #d93025; text-align: right; font-size: 15px;\">${item.so_luong || 0}</td>\n\n        <td style=\"text-align: center; font-size: 12px;\">${item.ten_dvt || '-'}</td>\n\n        <td style=\"font-size: 11px; color: #444; max-width: 150px;\">\n            ${item.ghi_chu_phieu ? `<div style=\"margin-bottom:3px\"><b>Phiếu:</b> ${item.ghi_chu_phieu}</div>` : ''}\n            ${item.ghi_chu_chi_tiet ? `<div><b>Dòng:</b> ${item.ghi_chu_chi_tiet}</div>` : ''}\n        </td>\n      </tr>\n    `).join('');\n\n    return `\n      <!DOCTYPE html>\n      <html>\n      <head>\n        <style>\n          body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 10px; background-color: #fff; }\n          table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }\n          th, td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: middle; }\n          th { background-color: #f4f6f8; color: #444; font-weight: 600; position: sticky; top: 0; z-index: 10; border-bottom: 2px solid #ddd; white-space: nowrap; }\n          tr:hover { background-color: #f8f9fa; }\n        </style>\n      </head>\n      <body>\n        <table>\n          <thead>\n            <tr>\n              <th>Mã Phiếu / Ngày</th>\n              <th>Đơn vị cung cấp / Nơi Lưu</th>\n              <th>Nhân sự</th>\n              <th>Vật Tư</th>\n              <th style=\"text-align: center;\">Màu Sắc</th>\n              <th style=\"text-align: right;\">Số Lượng</th>\n              <th style=\"text-align: center;\">ĐVT</th>\n              <th>Ghi Chú</th>\n            </tr>\n          </thead>\n          <tbody>\n            ${rowsHTML}\n          </tbody>\n        </table>\n      </body>\n      </html>\n    `;\n  })()\n}}",
+  "topRow": 11,
+  "type": "IFRAME_WIDGET",
+  "version": 1,
+  "widgetId": "r2gx6h8k5l",
+  "widgetName": "Iframe1"
+}

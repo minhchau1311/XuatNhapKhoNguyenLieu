@@ -1,0 +1,7 @@
+SELECT DISTINCT 
+    bdh.id_vat_tu_cha AS value, 
+  v.ten_vat_tu AS label
+FROM public.tr_bom_don_hang bdh
+JOIN public.md_danh_muc_vat_tu v ON bdh.id_vat_tu_cha = v.id
+WHERE bdh.id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}' 
+  AND bdh.id_vat_tu_cha IS NOT NULL;

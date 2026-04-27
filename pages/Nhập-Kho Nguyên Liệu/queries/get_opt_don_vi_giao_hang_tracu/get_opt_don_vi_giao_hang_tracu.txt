@@ -1,0 +1,7 @@
+SELECT DISTINCT
+    dt.id AS value, 
+    dt.ma_doi_tac || ' - ' || dt.ten_doi_tac AS label
+FROM public.md_doi_tac dt
+-- INNER JOIN để chỉ lấy những đối tác CÓ MẶT trong bảng Phiếu Nhập Kho
+INNER JOIN public.tr_phieu_nhap_kho pnk ON dt.id = pnk.id_doi_tac
+ORDER BY label;

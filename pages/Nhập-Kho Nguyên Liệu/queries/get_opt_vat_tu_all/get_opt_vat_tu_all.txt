@@ -1,0 +1,13 @@
+SELECT 
+    vt.id AS value, 
+    vt.ma_vat_tu || ' - (' || dvt.ten_dvt || ') - ' || vt.ten_vat_tu AS label,
+    dvt.ten_dvt
+FROM public.md_danh_muc_vat_tu vt
+JOIN public.md_loai_vat_tu lvt ON vt.id_loai_vat_tu = lvt.id
+LEFT JOIN public.md_don_vi_tinh dvt ON vt.id_don_vi_tinh = dvt.id
+-- KẾT NỐI VỚI BẢNG VẬT TƯ ĐỐI TÁC
+JOIN public.md_vat_tu_doi_tac vtdt ON vt.id = vtdt.id_vat_tu
+WHERE lvt.nhom_loai = 'NGUYEN_LIEU' 
+-- LỌC CHẶT: Chỉ lấy vật tư của ông Đối tác đang được chọn ở Vỏ phiếu
+AND vtdt.id_doi_tac::text = '{{sel_don_vi_giao_hang.selectedOptionValue || '00000000-0000-0000-0000-000000000000'}}'
+ORDER BY vt.ma_vat_tu;

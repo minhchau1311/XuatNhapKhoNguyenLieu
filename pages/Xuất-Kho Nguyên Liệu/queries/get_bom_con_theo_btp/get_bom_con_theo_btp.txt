@@ -1,0 +1,46 @@
+WITH RECURSIVE bom_tree AS (
+    -- Bước 1: Lấy các vật tư trực tiếp dưới cấp BTP đang chọn
+    SELECT 
+        id, 
+        id_vat_tu, 
+        id_vat_tu_cha, 
+        id_mau_sac, 
+        sl_can_xuat AS dinh_muc, 
+        id_don_vi_tinh 
+    FROM public.tr_bom_don_hang
+    WHERE id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}' 
+      AND id_vat_tu_cha::text = '{{sel_btp_bom.selectedOptionValue || ""}}'
+    
+    UNION ALL
+    
+    -- Bước 2: Đệ quy tìm con cháu (VÀ NHÂN DỒN ĐỊNH MỨC)
+    SELECT 
+        b.id, 
+        b.id_vat_tu, 
+        b.id_vat_tu_cha, 
+        b.id_mau_sac, 
+        (b.sl_can_xuat * t.dinh_muc) AS dinh_muc, -- 👉 SỬA LỖI 1: Nhân dồn định mức từ Cha xuống Con
+        b.id_don_vi_tinh
+    FROM public.tr_bom_don_hang b
+    JOIN bom_tree t ON b.id_vat_tu_cha = t.id_vat_tu
+    WHERE b.id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}'
+)
+-- Bước 3: Xuất kết quả
+SELECT 
+    t.id_vat_tu, 
+    v.ma_vat_tu, 
+    v.ten_vat_tu, 
+    t.id_mau_sac, 
+    m.ten_mau AS mau_sac, 
+    t.dinh_muc, 
+    d.ten_dvt AS dvt
+FROM bom_tree t
+JOIN public.md_danh_muc_vat_tu v ON t.id_vat_tu = v.id
+LEFT JOIN public.md_mau_sac m ON t.id_mau_sac = m.id
+LEFT JOIN public.md_don_vi_tinh d ON t.id_don_vi_tinh = d.id
+WHERE NOT EXISTS (
+    -- 👉 SỬA LỖI 2: Chỉ loại trừ nếu nó là Cha TRONG CÙNG MỘT ĐƠN HÀNG
+    SELECT 1 FROM public.tr_bom_don_hang sub 
+    WHERE sub.id_vat_tu_cha = t.id_vat_tu 
+      AND sub.id_don_hang::text = '{{sel_don_hang.selectedOptionValue || ""}}'
+);

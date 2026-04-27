@@ -1,0 +1,52 @@
+{
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 46,
+  "boxShadow": "none",
+  "buttonColor": "#3b82f6",
+  "buttonVariant": "PRIMARY",
+  "disabledWhenInvalid": false,
+  "dynamicBindingPathList": [
+    {
+      "key": "borderRadius"
+    }
+  ],
+  "dynamicPropertyPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onClick"
+    }
+  ],
+  "isDefaultClickDisabled": true,
+  "isDisabled": false,
+  "isLoading": false,
+  "isVisible": true,
+  "key": "d4zi1y41wm",
+  "leftColumn": 48,
+  "minWidth": 120,
+  "mobileBottomRow": 67,
+  "mobileLeftColumn": 47,
+  "mobileRightColumn": 63,
+  "mobileTopRow": 63,
+  "needsErrorInfo": false,
+  "onClick": "{{Store_NhapKho.luuVaoDatabase()}}",
+  "parentColumnSpace": 16.953125,
+  "parentId": "e2fwma4wl0",
+  "parentRowSpace": 10,
+  "placement": "CENTER",
+  "recaptchaType": "V3",
+  "renderMode": "CANVAS",
+  "resetFormOnClick": false,
+  "responsiveBehavior": "hug",
+  "rightColumn": 64,
+  "text": "Lưu",
+  "topRow": 41,
+  "type": "BUTTON_WIDGET",
+  "version": 1,
+  "widgetId": "lccpqh9w5l",
+  "widgetName": "btn_luu_data"
+}

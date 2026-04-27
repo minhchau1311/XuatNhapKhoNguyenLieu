@@ -1,0 +1,41 @@
+WITH new_phieu AS (
+    INSERT INTO public.tr_phieu_nhap_kho (
+        ma_phieu_nhap, id_kho, id_doi_tac, ghi_chu, nguoi_tao, nguoi_giao_hang
+    ) VALUES (
+        {{inp_ma_phieu_nhap.text}},
+        {{sel_kho.selectedOptionValue}}::uuid,
+        {{sel_don_vi_giao_hang.selectedOptionValue}}::uuid,
+        'Nhập kho qua Appsmith',
+        {{appsmith.user.email}},
+        {{inp_nguoi_giao.text}} -- 🚨 ĐÃ BỔ SUNG LƯU NGƯỜI GIAO HÀNG
+    ) RETURNING id
+),
+chi_tiet AS (
+    INSERT INTO public.tr_chi_tiet_nhap_kho (
+        id_phieu_nhap, id_vat_tu, id_mau_sac, so_luong_thuc_nhan, ghi_chu, nguoi_tao, id_chi_tiet_don_mua
+    )
+    SELECT 
+        (SELECT id FROM new_phieu),
+        (elem->>'id_vat_tu')::uuid,
+        NULLIF(elem->>'id_mau_sac', '')::uuid,
+        (elem->>'so_luong')::numeric,
+        elem->>'ghi_chu',
+        {{appsmith.user.email}},
+        NULLIF(elem->>'id_chi_tiet_mua', '')::uuid 
+    FROM jsonb_array_elements({{JSON.stringify(appsmith.store.bangTamNK)}}::jsonb) AS elem
+    RETURNING id, id_vat_tu, id_mau_sac, so_luong_thuc_nhan
+)
+INSERT INTO public.tr_nhat_ky_kho (
+    loai_giao_dich, id_kho, id_vat_tu, id_mau_sac, so_luong, nguoi_thuc_hien, nguoi_tao, id_chi_tiet_nhap_kho
+)
+SELECT 
+    'NHAP_KHO',
+    {{sel_kho.selectedOptionValue}}::uuid,
+    id_vat_tu,
+    id_mau_sac,
+    so_luong_thuc_nhan,
+    {{appsmith.user.name || appsmith.user.email}}, 
+    {{appsmith.user.email}},                       
+    id
+FROM chi_tiet
+RETURNING id;

@@ -1,0 +1,7 @@
+SELECT 
+    id AS value, 
+    ma_don_mua AS label, 
+    id_doi_tac
+FROM public.tr_don_mua_hang 
+WHERE trang_thai != 'HOAN_THANH' 
+ORDER BY created_at DESC;

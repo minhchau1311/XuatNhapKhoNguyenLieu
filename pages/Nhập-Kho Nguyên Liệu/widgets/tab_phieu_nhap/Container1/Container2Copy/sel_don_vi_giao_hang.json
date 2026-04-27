@@ -1,0 +1,71 @@
+{
+  "accentColor": "{{appsmith.theme.colors.primaryColor}}",
+  "animateLoading": true,
+  "borderRadius": "{{appsmith.theme.borderRadius.appBorderRadius}}",
+  "bottomRow": 7,
+  "boxShadow": "none",
+  "defaultOptionValue": "",
+  "dynamicBindingPathList": [
+    {
+      "key": "accentColor"
+    },
+    {
+      "key": "borderRadius"
+    },
+    {
+      "key": "sourceData"
+    }
+  ],
+  "dynamicHeight": "FIXED",
+  "dynamicPropertyPathList": [
+    {
+      "key": "sourceData"
+    },
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "dynamicTriggerPathList": [
+    {
+      "key": "onOptionChange"
+    }
+  ],
+  "isDisabled": false,
+  "isFilterable": true,
+  "isLoading": false,
+  "isRequired": false,
+  "isVisible": true,
+  "key": "sr077ef5pu",
+  "labelAlignment": "left",
+  "labelPosition": "Top",
+  "labelText": "Chọn Đơn Vị Cung Cấp",
+  "labelTextSize": "0.875rem",
+  "labelWidth": 5,
+  "leftColumn": 11,
+  "maxDynamicHeight": 9000,
+  "minDynamicHeight": 4,
+  "minWidth": 450,
+  "mobileBottomRow": 24,
+  "mobileLeftColumn": 34,
+  "mobileRightColumn": 54,
+  "mobileTopRow": 17,
+  "needsErrorInfo": false,
+  "onDropdownOpen": "{{}}",
+  "onOptionChange": "{{\n  // 1. Xóa sạch bảng tạm\n  Store_NhapKho.bangTamNK = [];\n  storeValue(\"bangTamNK\", []);\n  \n  // 2. Chạy lấy lại list Vật tư (cho nhập tay) và list Phiếu mua (cho Modal)\n  get_opt_vat_tu_all.run();\n  get_opt_phieu_mua.run();\n  \n  // 3. Dọn dẹp các ô chi tiết để nhập lại\n  resetWidget(\"sel_vat_tu\", true);\n  resetWidget(\"sel_mau_sac\", true);\n  resetWidget(\"inp_so_luong_thuc_nhan\", true);\n}}",
+  "optionLabel": "label",
+  "optionValue": "value",
+  "parentColumnSpace": 17.237060546875,
+  "parentId": "5dp0sr2kwb",
+  "parentRowSpace": 10,
+  "placeholderText": "Select option",
+  "renderMode": "CANVAS",
+  "responsiveBehavior": "fill",
+  "rightColumn": 36,
+  "serverSideFiltering": false,
+  "sourceData": "{{get_opt_don_vi_giao.data}}",
+  "topRow": 0,
+  "type": "SELECT_WIDGET",
+  "version": 1,
+  "widgetId": "gqr8qr00tn",
+  "widgetName": "sel_don_vi_giao_hang"
+}

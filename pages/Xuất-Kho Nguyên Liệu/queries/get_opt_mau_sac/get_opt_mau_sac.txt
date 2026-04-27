@@ -1,0 +1,2 @@
+SELECT id AS value, ma_mau || ' - ' || ten_mau AS label 
+FROM public.md_mau_sac ORDER BY ten_mau;
